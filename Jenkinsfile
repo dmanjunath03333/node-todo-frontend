@@ -1,10 +1,10 @@
 
 pipeline {
   environment {
-    registry ="dmanjunath03333/node=todo-install"
+    registry ="dmanjunath03333/node-todo-install"
     registryCrednetials='dockerhub'
     dockerImage=''
-    containerId=sh(script: 'docker ps -aqf "name=node-app",returnStdout:true)
+    containerId=sh(script: 'docker ps -aqf "name=node-app",returnStdOut:true)
 
 }
                    
@@ -34,3 +34,6 @@ stage('Test') {
       }
   }
 }
+    
+  }
+  }
