@@ -2,7 +2,7 @@
 pipeline {
   environment {
     registry ="dmanjunath03333/node=todo-install"
-    registryCrednetials='Manju@1231990'
+    registryCrednetials='dockerhub'
     dockerImage=''
     containerId=sh(script: 'docker ps -aqf "name=node-app",returnStdout:true)
 
