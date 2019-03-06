@@ -33,6 +33,8 @@ pipeline {
   }
   stage('Run Container') {
    steps {
+    sh 'docker stop node-app"$BUILD_NUMBER-1"'
+     sh 'docker rm node-app"$BUILD_NUMBER-1"'
     sh 'docker run --name=node-app"$BUILD_NUMBER" -d -p 3000:3000 $registry:$BUILD_NUMBER &'
    }
   }
