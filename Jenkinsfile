@@ -1,41 +1,49 @@
-
 pipeline {
-  environment {
-    registry ="dmanjunath03333/node-todo-install"
-    registryCrednetials='dockerhub'
-    dockerImage=''
-    containerId=sh(script: 'docker ps -aqf "name=node-app",returnStdOut:true)
+ environment {
+  registry = 'dmanjunath03333/node-todo-frontend'
+  registryCredential = 'dockerhub'
+  dockerImage = ''
+ containerId = sh(script: 'docker ps -aqf "name=node-app"', returnStdout:true)
+ }
+ agent any
+ tools {
+  nodejs "node"
+ }
 
-}
-                   
-  agent any
-  toots {nodejs "node"}               
-  stages {
-  stage ('Cloning Git') {
-    steps {
-      git 'https://github.com/dmanjunath03333/node-todo-frontend'
+ stages {
+  /*stage('Cloning project') {
+   git 'https://github.com/gustavoapolinario/node-todo-frontend'
+  }*/
+  stage('Build') {
+   steps {
+    sh 'npm install'
+   }
+  }
+  stage('Test') {
+   steps {
+    sh 'npm test'
+   }
+  }
+  stage('Building image') {
+   steps {
+    script {
+     dockerImage = docker.build registry + ":$BUILD_NUMBER"
     }
+   }
   }
-    
-stage ('Build') {
-  steps {
-   sh 'npm install' 
+  stage('Run Container') {
+   steps {
+    sh 'docker run --name=node-app -d -p 3000:3000 $registry:$BUILD_NUMBER &'
+   }
   }
+  stage('push image') {
+   steps {
+    script {
+     docker.withRegistry('', registryCredential) {
+      dockerImage.push()
+     }
+    }
+   }
+  }
+ }
 }
-  
-stage('Test') {
-  steps{
-   sh 'npm test' 
-  }
-}
-  
-  stage('Building Image') {
-    steps{
-      script {
-        dockerImage= docker.build registry+ ":BUILD_NUMBER"
-      }
-  }
-}
-    
-  }
-  }
