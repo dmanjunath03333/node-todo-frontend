@@ -33,7 +33,7 @@ pipeline {
   }
   stage('Run Container') {
    steps {
-    sh 'docker run --name=node-app+ ":$BUILD_NUMBER" -d -p 3000:3000 $registry:$BUILD_NUMBER &'
+    sh 'docker run --name=node-app + "$BUILD_NUMBER" -d -p 3000:3000 $registry:$BUILD_NUMBER &'
    }
   }
   stage('push image') {
