@@ -9,12 +9,14 @@ pipeline {
 }
                    
   agent any
+  toots {nodejs "node"}               
   stages {
   stage ('Cloning Git') {
     steps {
       git 'https://github.com/dmanjunath03333/node-todo-frontend'
     }
   }
+    
 stage ('Build') {
   steps {
    sh 'npm install' 
